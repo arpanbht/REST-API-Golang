@@ -33,3 +33,4 @@ go.work.sum
 
 # Storage folder (Database)
 /data/
+/config/
