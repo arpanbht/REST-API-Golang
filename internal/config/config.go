@@ -1,12 +1,14 @@
 package config
 
 type HTTPServer struct {
-	Address string
+	Addr string
 }
 
 // Configuration holds the application configuration settings.
+
+// env-default:"production"
 type Configuration struct {
-	Env         string
-	StoragePath string
-	HTTPServer
+	Env         string `yaml:"env" env:"ENV" env-required:"true"`
+	StoragePath string `yaml:"storage_path" env-required:"true"`
+	HTTPServer  `yaml:"http_server" env-required:"true"`
 }
