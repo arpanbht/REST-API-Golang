@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log/slog"
 	"net/http"
 	"os"
@@ -29,11 +28,11 @@ func main() {
 
 	// setup server
 	server := http.Server{
-		Addr:    cfg.Addr,
+		Addr:    cfg.HTTPServer.Addr,
 		Handler: router,
 	}
 
-	fmt.Printf("Server started %s\n", cfg.HTTPServer.Addr)
+	slog.Info("Starting server", slog.String("address", cfg.HTTPServer.Addr))
 
 	done := make(chan os.Signal, 1)
 
@@ -48,11 +47,11 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	fmt.Println("🛑 Shutting down server gracefully...")
+	slog.Info("🛑 Shutting down server gracefully...")
 	if err := server.Shutdown(ctx); err != nil {
 		slog.Error("Failed to shutdown properly 🚨", slog.String("Error", err.Error()))
 	}
 
-	fmt.Println("👋 Server stopped cleanly.")
+	slog.Info("👋 Server stopped cleanly.")
 
 }
